@@ -11,9 +11,9 @@ import java.util.List;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
-import static org.truth0.Truth.ASSERT;
 
 public class GenericTaskTest {
     private ConfigElement configElement = mock(ConfigElement.class);
@@ -34,7 +34,7 @@ public class GenericTaskTest {
 
         ValidationResult result = task.validate(taskConfig);
 
-        ASSERT.that(result.getErrors()).has().exactly(error);
+        assertThat(result.getErrors()).containsExactly(error);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class GenericTaskTest {
 
         ValidationResult result = task.validate(taskConfig);
 
-        ASSERT.that(result.isSuccessful()).isTrue();
+        assertThat(result.isSuccessful()).isTrue();
     }
 
     private static class TestableGenericTask extends GenericTask {

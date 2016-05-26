@@ -13,9 +13,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.tw.go.plugins.artifactory.testutils.FilesystemUtils.path;
 import static org.apache.commons.lang.StringUtils.join;
-import static org.truth0.Truth.ASSERT;
 
 public class GoArtifactFactoryIntegrationTest {
     private static GoArtifactFactory factory;
@@ -26,7 +26,7 @@ public class GoArtifactFactoryIntegrationTest {
     public static void beforeAll() throws Exception {
         Map<String, String> envVars = new HashMap<>();
         envVars.put("GO_REVISION", "123");
-		context = new TaskExecutionContextBuilder()
+        context = new TaskExecutionContextBuilder()
                 .withWorkingDir(System.getProperty("user.dir"))
                 .withEnvVars(envVars)
                 .build();
@@ -45,7 +45,7 @@ public class GoArtifactFactoryIntegrationTest {
 
         GoArtifact expectedArtifact = goArtifact("src/test/resources/artifact.txt", "repo/path/to/output.ext", properties);
 
-        ASSERT.that(artifacts).has().exactly(expectedArtifact);
+        assertThat(artifacts).containsExactly(expectedArtifact);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class GoArtifactFactoryIntegrationTest {
         GoArtifact artifactTxt = goArtifact("src/test/resources/artifact.txt", "repo/path/artifact.txt", properties);
         GoArtifact testHtml = goArtifact("src/test/resources/view/test.html", "repo/path/test.html", properties);
 
-        ASSERT.that(artifacts).has().exactly(artifactTxt, testHtml);
+        assertThat(artifacts).containsExactly(artifactTxt, testHtml);
     }
 
     @Test
@@ -79,9 +79,9 @@ public class GoArtifactFactoryIntegrationTest {
         GoArtifact artifactTxt = goArtifact("src/test/resources/artifact.txt", "repo/path", properties);
         GoArtifact testHtml = goArtifact("src/test/resources/view/test.html", "repo/path", properties);
 
-        ASSERT.that(artifacts).has().exactly(artifactTxt, testHtml);
+        assertThat(artifacts).containsExactly(artifactTxt, testHtml);
     }
-    
+
     @Test
     public void shouldSubstituteEnvironmentVariablesIntoUri() {
         TaskConfig config = new TaskConfigBuilder()
@@ -96,7 +96,7 @@ public class GoArtifactFactoryIntegrationTest {
         GoArtifact artifactTxt = goArtifact("src/test/resources/artifact.txt", "repo/path/123", properties);
         GoArtifact testHtml = goArtifact("src/test/resources/view/test.html", "repo/path/123", properties);
 
-        ASSERT.that(artifacts).has().exactly(artifactTxt, testHtml);
+        assertThat(artifacts).containsExactly(artifactTxt, testHtml);
     }
 
     private GoArtifact goArtifact(String relativePath, String uri, Map<String, String> properties) {

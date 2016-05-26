@@ -6,9 +6,9 @@ import com.tw.go.plugins.artifactory.model.GoArtifact;
 import com.tw.go.plugins.artifactory.model.GoBuildDetails;
 import com.tw.go.plugins.artifactory.model.UploadMetadata;
 import org.jfrog.build.api.Build;
-import org.jfrog.build.client.ArtifactoryBuildInfoClient;
 import org.jfrog.build.client.ArtifactoryUploadResponse;
 import org.jfrog.build.client.DeployDetails;
+import org.jfrog.build.extractor.clientConfiguration.client.ArtifactoryBuildInfoClient;
 
 import java.io.Closeable;
 import java.io.File;

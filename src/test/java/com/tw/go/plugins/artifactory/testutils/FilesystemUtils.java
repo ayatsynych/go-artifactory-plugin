@@ -6,7 +6,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.nio.file.Paths;
 
-import static java.lang.System.getProperty;
 import static org.apache.commons.lang.StringUtils.join;
 
 public class FilesystemUtils {
@@ -15,8 +14,8 @@ public class FilesystemUtils {
     }
 
     public static String read(File file) throws IOException {
-        try(InputStream stream = new FileInputStream(file)) {
-            return join(IOUtils.readLines(stream), "\n").trim();
+        try (InputStream stream = new FileInputStream(file)) {
+            return join(IOUtils.readLines(stream), System.lineSeparator()).trim();
         }
     }
 

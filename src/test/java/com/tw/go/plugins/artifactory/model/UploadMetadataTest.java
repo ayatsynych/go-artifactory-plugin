@@ -9,10 +9,10 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.tw.go.plugins.artifactory.testutils.FilesystemUtils.path;
 import static com.tw.go.plugins.artifactory.testutils.FilesystemUtils.read;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 public class UploadMetadataTest {
     @Test
@@ -22,7 +22,7 @@ public class UploadMetadataTest {
         UploadMetadata uploadMetadata = new UploadMetadata(asList(response));
 
         String expectedContent = read(new File(path("src", "test", "resources", "uploadMetadata.json")));
-        ASSERT.that(uploadMetadata.content()).is(expectedContent);
+        assertThat(uploadMetadata.content()).isEqualTo(expectedContent);
     }
 
     @Test
@@ -32,6 +32,6 @@ public class UploadMetadataTest {
         String uploadMetadata = new UploadMetadata(asList(response)).content();
         JsonNode jsonNode = new ObjectMapper().readTree(uploadMetadata);
 
-        ASSERT.that(jsonNode.findValue("errors")).isNull();
+        assertThat(jsonNode.findValue("errors")).isNull();
     }
 }

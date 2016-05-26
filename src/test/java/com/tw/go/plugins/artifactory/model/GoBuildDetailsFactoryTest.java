@@ -1,5 +1,6 @@
 package com.tw.go.plugins.artifactory.model;
 
+import com.google.common.truth.Truth;
 import com.thoughtworks.go.plugin.api.task.Console;
 import com.thoughtworks.go.plugin.api.task.EnvironmentVariables;
 import com.tw.go.plugins.artifactory.GoBuildDetailsBuilder;
@@ -15,7 +16,6 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.truth0.Truth.ASSERT;
 
 public class GoBuildDetailsFactoryTest {
     private Map<String, String> envVars = map("GO_PIPELINE_NAME", "pipeline")
@@ -62,6 +62,6 @@ public class GoBuildDetailsFactoryTest {
         GoArtifact artifact = new GoArtifact("path", "uri/path");
         GoBuildDetails details = factory.createBuildDetails(environment, asList(artifact));
 
-        ASSERT.that(details.environmentVariables()).hasKey("ARTIFACTORY_PASSWORD").withValue("****");
+        Truth.assertThat(details.environmentVariables()).containsEntry("ARTIFACTORY_PASSWORD", "****");
     }
 }

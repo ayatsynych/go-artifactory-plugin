@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.truth0.Truth.ASSERT;
 
 public class GuavaTests {
     @Test
@@ -17,13 +17,13 @@ public class GuavaTests {
         String testString = "a/b/c.txt";
         List<String> splits = Splitter.on("/").omitEmptyStrings().limit(2).splitToList(testString);
 
-        ASSERT.that(splits).has().exactlyAs(asList("a", "b/c.txt"));
+        assertThat(splits).containsExactlyElementsIn(asList("a", "b/c.txt"));
     }
 
     @Test
     public void shouldStringifyIterables() {
         List<String> strings = Arrays.asList("a", "b", "c");
-        ASSERT.that(Iterables.toString(strings)).isEqualTo("[a, b, c]");
+        assertThat(Iterables.toString(strings)).isEqualTo("[a, b, c]");
     }
 
     @Test
@@ -31,9 +31,9 @@ public class GuavaTests {
         String toBeSplit = "a=b\n\nc=d\n\n\n";
         Map<String, String> split = Splitter.on("\n").omitEmptyStrings().withKeyValueSeparator("=").split(toBeSplit);
 
-        ASSERT.that(split.size()).is(2);
-        ASSERT.that(split).hasKey("a").withValue("b");
-        ASSERT.that(split).hasKey("c").withValue("d");
+        assertThat(split.size()).isEqualTo(2);
+        assertThat(split).containsEntry("a", "b");
+        assertThat(split).containsEntry("c", "d");
     }
 }
 

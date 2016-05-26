@@ -9,10 +9,10 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
 import static com.google.common.collect.Iterables.getLast;
+import static com.google.common.truth.Truth.assertThat;
 import static com.tw.go.plugins.artifactory.task.config.ConfigElement.path;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.truth0.Truth.ASSERT;
 
 public class PathConfigElementTest {
     public static final Iterable<Path> ROOT_DIRECTORIES = FileSystems.getDefault().getRootDirectories();
@@ -20,29 +20,29 @@ public class PathConfigElementTest {
     @Test
     public void shouldBeARelativePath() {
         Optional<ValidationError> error = path.validate(pathConfig("a/b"));
-        ASSERT.that(error).isAbsent();
+        assertThat(error).isAbsent();
 
         error = path.validate(pathConfig("../a/b"));
-        ASSERT.that(error).isAbsent();
+        assertThat(error).isAbsent();
     }
 
     @Test
     public void shouldNotValidateAnAbsolutePath() {
         String root = getLast(ROOT_DIRECTORIES).toString();
         Optional<ValidationError> error = path.validate(pathConfig(root));
-        ASSERT.that(error).hasValue(new ValidationError("Path", "Path should be relative to workspace"));
+        assertThat(error).hasValue(new ValidationError("Path", "Path should be relative to workspace"));
     }
 
     @Test
     public void shouldNotValidateEmptyPath() {
         Optional<ValidationError> error = path.validate(pathConfig(""));
-        ASSERT.that(error).hasValue(new ValidationError("Path", "Path is mandatory"));
+        assertThat(error).hasValue(new ValidationError("Path", "Path is mandatory"));
     }
 
     @Test
     public void shouldReturnPathFromTaskConfig() {
         TaskConfig taskConfig = pathConfig("a/b");
-        ASSERT.that(path.from(taskConfig)).is("a/b");
+        assertThat(path.from(taskConfig)).isEqualTo("a/b");
     }
 
     private TaskConfig pathConfig(String value) {

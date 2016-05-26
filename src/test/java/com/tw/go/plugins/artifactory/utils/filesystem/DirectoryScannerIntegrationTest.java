@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 public class DirectoryScannerIntegrationTest {
     private Path rootDir;
@@ -19,7 +19,7 @@ public class DirectoryScannerIntegrationTest {
     private DirectoryScanner directoryScanner;
 
     @Before
-    public  void beforeEach() throws IOException {
+    public void beforeEach() throws IOException {
         rootDir = Files.createTempDirectory(null);
         subDir = Files.createTempDirectory(rootDir, null);
 
@@ -33,7 +33,7 @@ public class DirectoryScannerIntegrationTest {
 
         Collection<File> files = directoryScanner.scan(testFileName);
 
-        ASSERT.that(files).has().exactly(testFile.toFile());
+        assertThat(files).containsExactly(testFile.toFile());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class DirectoryScannerIntegrationTest {
 
         Collection<File> files = directoryScanner.scan("**");
 
-        ASSERT.that(files).has().exactly(temp1.toFile(), temp2.toFile(), temp3.toFile());
+        assertThat(files).containsExactly(temp1.toFile(), temp2.toFile(), temp3.toFile());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class DirectoryScannerIntegrationTest {
 
         Collection<File> files = directoryScanner.scan("**/*.class");
 
-        ASSERT.that(files).has().exactly(temp.toFile());
+        assertThat(files).containsExactly(temp.toFile());
     }
 
     @After

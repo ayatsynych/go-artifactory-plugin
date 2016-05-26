@@ -2,24 +2,24 @@ package com.tw.go.plugins.artifactory.model;
 
 import org.junit.Test;
 
-import static org.truth0.Truth.ASSERT;
+import static com.google.common.truth.Truth.assertThat;
 
 public class GoArtifactTest {
     private GoArtifact artifact = new GoArtifact("/full/path/to/artifact", "repo/path/to/artifact.ext");
 
     @Test
     public void shouldSplitUriIntoRepoAndArtifactPath() {
-        ASSERT.that(artifact.repository()).is("repo");
-        ASSERT.that(artifact.remotePath()).is("path/to/artifact.ext");
+        assertThat(artifact.repository()).isEqualTo("repo");
+        assertThat(artifact.remotePath()).isEqualTo("path/to/artifact.ext");
     }
 
     @Test
     public void shouldReturnTheLocalPath() {
-        ASSERT.that(artifact.localPath()).is("/full/path/to/artifact");
+        assertThat(artifact.localPath()).isEqualTo("/full/path/to/artifact");
     }
 
     @Test
     public void shouldReturnTheRemoteArtifactName() {
-        ASSERT.that(artifact.remoteName()).is("artifact.ext");
+        assertThat(artifact.remoteName()).isEqualTo("artifact.ext");
     }
 }

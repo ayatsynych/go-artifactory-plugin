@@ -11,14 +11,16 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 
-import static org.mockito.Mockito.mock;
+import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.when;
-import static org.truth0.Truth.ASSERT;
 
 public class PathMatchingVisitorTest {
-    @Mock private Path tempPath;
-    @Mock private PathMatcher matcher;
-    @InjectMocks private PathMatchingVisitor visitor;
+    @Mock
+    private Path tempPath;
+    @Mock
+    private PathMatcher matcher;
+    @InjectMocks
+    private PathMatchingVisitor visitor;
 
     @Before
     public void beforeEach() throws IOException {
@@ -31,8 +33,8 @@ public class PathMatchingVisitorTest {
 
         FileVisitResult result = visitor.visitFile(tempPath, null);
 
-        ASSERT.that(result).isEqualTo(FileVisitResult.CONTINUE);
-        ASSERT.that(visitor.matched()).has().exactly(tempPath);
+        assertThat(result).isEqualTo(FileVisitResult.CONTINUE);
+        assertThat(visitor.matched()).containsExactly(tempPath);
     }
 
     @Test
@@ -42,7 +44,7 @@ public class PathMatchingVisitorTest {
         visitor.visitFile(tempPath, null);
         visitor.visitFile(tempPath, null);
 
-        ASSERT.that(visitor.matched()).has().exactly(tempPath);
+        assertThat(visitor.matched()).containsExactly(tempPath);
     }
 
     @Test
@@ -51,7 +53,7 @@ public class PathMatchingVisitorTest {
 
         visitor.visitFile(tempPath, null);
 
-        ASSERT.that(visitor.matched()).isEmpty();
+        assertThat(visitor.matched()).isEmpty();
     }
 
     @Test(expected = IOException.class)

@@ -9,9 +9,9 @@ import org.jfrog.build.api.Module;
 import org.jfrog.build.api.builder.ArtifactBuilder;
 import org.jfrog.build.api.builder.BuildInfoBuilder;
 import org.jfrog.build.api.builder.ModuleBuilder;
-import org.jfrog.build.client.ArtifactoryBuildInfoClient;
 import org.jfrog.build.client.ArtifactoryUploadResponse;
 import org.jfrog.build.client.DeployDetails;
+import org.jfrog.build.extractor.clientConfiguration.client.ArtifactoryBuildInfoClient;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
@@ -27,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 
 import static com.google.common.collect.Iterables.getFirst;
 import static com.google.common.collect.Iterables.size;
+import static com.google.common.truth.Truth.assertThat;
 import static com.tw.go.plugins.artifactory.testutils.FilesystemUtils.path;
 import static com.tw.go.plugins.artifactory.testutils.MapBuilder.map;
 import static com.tw.go.plugins.artifactory.testutils.matchers.DeepEqualsMatcher.deepEquals;
@@ -37,7 +38,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.truth0.Truth.ASSERT;
 
 public class ArtifactoryClientTest {
 
@@ -94,7 +94,7 @@ public class ArtifactoryClientTest {
         verify(buildInfoClient).deployArtifact(deployDetailsCaptor.capture());
 
         DeployDetails deployDetails = deployDetailsCaptor.getValue();
-        ASSERT.that(deployDetails.getProperties()).hasKey("url").withValue("http://a.com/b");
+        assertThat(deployDetails.getProperties()).containsEntry("url", "http://a.com/b");
     }
 
     @Test
@@ -146,7 +146,7 @@ public class ArtifactoryClientTest {
         assertThat(metadata.getDownloadUri(), is(response.getDownloadUri()));
         assertThat(metadata.getMimeType(), is(response.getMimeType()));
         assertThat(metadata.getSize(), is(response.getSize()));
-        ASSERT.that(metadata.getErrors()).has().exactly("status: message");
+        assertThat(metadata.getErrors()).containsExactly("status: message");
         assertThat(metadata.getSha1(), is(response.getChecksums().getSha1()));
         assertThat(metadata.getMd5(), is(response.getChecksums().getMd5()));
         assertThat(metadata.getOriginalSha1(), is(response.getOriginalChecksums().getSha1()));

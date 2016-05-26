@@ -9,24 +9,16 @@ import com.tw.go.plugins.artifactory.model.GoArtifactFactory;
 import com.tw.go.plugins.artifactory.model.GoBuildDetailsFactory;
 import com.tw.go.plugins.artifactory.task.config.TaskConfigBuilder;
 import com.tw.go.plugins.artifactory.task.publish.BuildArtifactPublisher;
-import com.tw.go.plugins.artifactory.testutils.FilesystemUtils;
-import org.apache.commons.io.IOUtils;
 import org.junit.*;
 
 import java.io.File;
 import java.io.IOException;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.thoughtworks.webstub.StubServerFacade.newServer;
 import static com.thoughtworks.webstub.dsl.builders.ResponseBuilder.response;
-import static com.tw.go.plugins.artifactory.testutils.FilesystemUtils.delete;
-import static com.tw.go.plugins.artifactory.testutils.FilesystemUtils.read;
-import static com.tw.go.plugins.artifactory.testutils.FilesystemUtils.path;
+import static com.tw.go.plugins.artifactory.testutils.FilesystemUtils.*;
 import static com.tw.go.plugins.artifactory.testutils.MapBuilder.map;
-import static org.apache.commons.io.IOUtils.readLines;
-import static org.apache.commons.lang.StringUtils.join;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.truth0.Truth.ASSERT;
 
 public class PublishTaskExecutorIntegrationTest {
     private static StubServerFacade server;
@@ -80,8 +72,8 @@ public class PublishTaskExecutorIntegrationTest {
 
         ExecutionResult result = executor.execute(config, executionContext);
 
-        ASSERT.that(result.isSuccessful()).isTrue();
-        ASSERT.that(new File(pluginDirectory, "uploadMetadata.json").exists()).isTrue();
+        assertThat(result.isSuccessful()).isTrue();
+        assertThat(new File(pluginDirectory, "uploadMetadata.json").exists()).isTrue();
     }
 
     @After
